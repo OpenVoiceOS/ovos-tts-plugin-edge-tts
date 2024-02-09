@@ -7,7 +7,8 @@ Configuration parameters:
     "module": "ovos-tts-plugin-edge-tts",
     "ovos-tts-plugin-edge-tts": {
         "voice": "nl-NL-MaartenNeural",
-        "rate": "+200%"
+        "rate": "+200%",
+        "output_file": "edge_tts_output.wav"
     }
 }
 ```
