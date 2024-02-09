@@ -17,10 +17,13 @@ class EdgeTTSPlugin(TTS):
         async for chunk in edge_tts_communicate.stream():
             if chunk["type"] == "audio":
                 file.write(chunk["data"])
+                # Play each audio chunk asynchronously
+                asyncio.create_task(self.play_audio(file.name))
 
         return file.name, None  # No phonemes
 
-    def play_audio(self, wav_file):
+    async def play_audio(self, wav_file):
+        # Play the audio chunk asynchronously
         subprocess.run(["paplay", wav_file])
 
     def get_tts(self, sentence, wav_file):
@@ -32,7 +35,6 @@ class EdgeTTSPlugin(TTS):
 
             try:
                 result = loop.run_until_complete(self.generate_audio(edge_tts_communicate, file))
-                self.play_audio(result[0])
                 return result
             finally:
                 loop.close()
