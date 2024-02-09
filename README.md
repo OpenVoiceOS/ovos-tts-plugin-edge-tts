@@ -16,6 +16,3 @@ Configuration parameters:
 
 `pip install ovos-tts-plugin-edge-tts`
 
-##### LICENSE :
-
-Apache-2.0
