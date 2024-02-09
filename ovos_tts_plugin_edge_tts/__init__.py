@@ -7,7 +7,7 @@ class EdgeTTSPlugin(StreamingTTS):
         self.voice = self.config.get("voice", "en-US-AriaNeural")
         self.rate = self.config.get("rate", "+0%")  # use +0% for normal speed (100%)
             
-    async def stream_audio(sentence):
+    async def stream_tts(sentence):
         """yield chunks of TTS audio as they become available"""
         tts = edge_tts.Communicate(sentence, self.voice, rate=self.rate)
         async for chunk in tts.stream():
