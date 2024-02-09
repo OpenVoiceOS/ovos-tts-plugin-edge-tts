@@ -13,33 +13,29 @@ class EdgeTTSPlugin(TTS):
         self.rate = self.config.get("rate", "+200%")  # Default to normal speed (200%); use +0% for 100% speed
         self.output_file = self.config.get("output_file", "edge_tts_output.wav")
 
-    async def generate_audio(self, edge_tts_communicate, file, process):
+    async def generate_audio(self, edge_tts_communicate, file):
         async for chunk in edge_tts_communicate.stream():
             if chunk["type"] == "audio":
                 file.write(chunk["data"])
-                process.stdin.write(chunk["data"])
-
-        process.stdin.close()
-        process.wait()
 
         return file.name, None  # No phonemes
 
+    def play_audio(self, wav_file):
+        subprocess.run(["aplay", wav_file])
+
     def get_tts(self, sentence, wav_file):
         edge_tts_communicate = edge_tts.Communicate(sentence, self.voice, rate=self.rate)
-
-        # Play audio while generating
-        process = subprocess.Popen(["paplay"], stdin=subprocess.PIPE)
 
         with open(wav_file, "wb") as file:
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
 
             try:
-                result = loop.run_until_complete(self.generate_audio(edge_tts_communicate, file, process))
+                result = loop.run_until_complete(self.generate_audio(edge_tts_communicate, file))
+                self.play_audio(result[0])
                 return result
             finally:
                 loop.close()
-                process.terminate()  # Terminate the subprocess to prevent it from playing twice
 
 class EdgeTTSValidator(TTSValidator):
     def __init__(self, tts):
