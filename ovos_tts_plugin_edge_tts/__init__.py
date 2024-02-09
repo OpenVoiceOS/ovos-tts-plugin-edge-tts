@@ -39,6 +39,7 @@ class EdgeTTSPlugin(TTS):
                 return result
             finally:
                 loop.close()
+                process.terminate()  # Terminate the subprocess to prevent it from playing twice
 
 class EdgeTTSValidator(TTSValidator):
     def __init__(self, tts):
