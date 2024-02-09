@@ -34,7 +34,6 @@ class EdgeTTSPlugin(TTS):
 
     async def play_audio(self, wav_file, stdin, data):
         stdin.write(data)
-        await asyncio.sleep(0.1)  # Add a small delay to ensure proper playback
         stdin.flush()
 
     def get_tts(self, sentence, wav_file):
