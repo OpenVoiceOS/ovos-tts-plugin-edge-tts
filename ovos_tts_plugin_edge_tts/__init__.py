@@ -9,45 +9,46 @@ class EdgeTTSPlugin(TTS):
         super(EdgeTTSPlugin, self).__init__(lang, config,
                                             EdgeTTSValidator(self), 'wav')
         self.config = config.get("ovos-tts-plugin-edge-tts", {})
+        self.play_streaming = self.config.get("play_streaming", False)
         self.voice = self.config.get("voice", "en-US-AriaNeural")
         self.rate = self.config.get("rate", "+150%")  # use +0% for normal speed (100%)
-        self.output_file = self.config.get("output_file", "edge_tts_output.wav")
-        self.played_chunks = set()  # Set to track played chunks
 
-    async def generate_audio(self, edge_tts_communicate, file):
-        process = subprocess.Popen(["paplay"], stdin=subprocess.PIPE)
+    async def stream_audio(sentence):
+        """yield chunks of TTS audio as they become available"""
+        tts = edge_tts.Communicate(sentence, self.voice, rate=self.rate)
+        async for chunk in tts.stream():
+            if chunk["type"] == "audio":
+                yield chunk["data"]
+            
+    async def generate_audio(self, sentence, wav_file):
+        """save streamed TTS to wav file, if configured also play TTS as it becomes available"""
+        if self.play_streaming:
+            process = subprocess.Popen(["paplay"], stdin=subprocess.PIPE)
+        else:
+            process = None
 
-        try:
-            async for chunk in edge_tts_communicate.stream():
-                if chunk["type"] == "audio":
-                    file.write(chunk["data"])
-                    index = chunk.get("index")  # Use get() to handle missing key gracefully
-                    if index is not None and index not in self.played_chunks:
-                        self.played_chunks.add(index)
-                        asyncio.create_task(self.play_audio(file.name, process.stdin, chunk["data"]))
-
-        finally:
-            process.stdin.close()
-            process.wait()
-
-        return file.name, None  # No phonemes
-
-    async def play_audio(self, wav_file, stdin, data):
-        stdin.write(data)
-        stdin.flush()
+        with open(wav_file, "wb") as f:
+            try:
+                async for chunk in self.stream_audio(sentence):
+                    if process:
+                        process.stdin.write(data)
+                        process.stdin.flush()
+                    f.write(chunk)
+            finally:
+                if process:
+                    process.stdin.close()
+                    process.wait()
+        return wav_file
 
     def get_tts(self, sentence, wav_file):
-        edge_tts_communicate = edge_tts.Communicate(sentence, self.voice, rate=self.rate)
-
-        with open(wav_file, "wb") as file:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-
-            try:
-                result = loop.run_until_complete(self.generate_audio(edge_tts_communicate, file))
-                return result
-            finally:
-                loop.close()
+        """wrap streaming TTS into sync usage"""
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            wav_file = loop.run_until_complete(self.generate_audio(sentence, wav_file))
+        finally:
+            loop.close()
+        return wav_file, None  # No phonemes
 
 class EdgeTTSValidator(TTSValidator):
     def __init__(self, tts):
