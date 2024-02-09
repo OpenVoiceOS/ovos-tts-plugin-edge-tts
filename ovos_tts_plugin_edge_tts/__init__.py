@@ -9,8 +9,8 @@ class EdgeTTSPlugin(TTS):
         super(EdgeTTSPlugin, self).__init__(lang, config,
                                             EdgeTTSValidator(self), 'wav')
         self.config = config.get("ovos-tts-plugin-edge-tts", {})
-        self.voice = self.config.get("voice", "nl-NL-MaartenNeural")
-        self.rate = self.config.get("rate", "+200%")
+        self.voice = self.config.get("voice", "en-US-AriaNeural")
+        self.rate = self.config.get("rate", "100%")
         self.output_file = self.config.get("output_file", "edge_tts_output.wav")
 
     def get_tts(self, sentence, wav_file):
