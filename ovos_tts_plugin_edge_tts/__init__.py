@@ -21,7 +21,7 @@ class EdgeTTSPlugin(TTS):
         return file.name, None  # No phonemes
 
     def play_audio(self, wav_file):
-        subprocess.run(["aplay", wav_file])
+        subprocess.run(["paplay", wav_file])
 
     def get_tts(self, sentence, wav_file):
         edge_tts_communicate = edge_tts.Communicate(sentence, self.voice, rate=self.rate)
