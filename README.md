@@ -12,6 +12,8 @@ Configuration parameters:
     }
 }
 ```
+See for voices: [list of voices available in Edge TTS](https://gist.github.com/BettyJJ/17cbaa1de96235a7f5773b8690a20462). 
+
 
 ##### Installation
 
