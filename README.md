@@ -1,5 +1,7 @@
 ### ovos-tts-plugin-edge-tts
 
+TTS plugin for [OVOS](https://openvoiceos.org) based on [Edge-TTS](https://github.com/rany2/edge-tts)
+
 Configuration parameters to add in the user config: `~/.config/mycroft/mycroft.conf`
 
 ```json
