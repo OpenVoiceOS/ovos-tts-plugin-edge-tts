@@ -1,6 +1,6 @@
 ### ovos-tts-plugin-edge-tts
 
-Configuration parameters:
+Configuration parameters to add in the user config: `~/.config/mycroft/mycroft.conf`
 
 ```json
 "tts": {
