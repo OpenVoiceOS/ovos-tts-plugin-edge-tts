@@ -9,9 +9,20 @@ class EdgeTTSPlugin(TTS):
         super(EdgeTTSPlugin, self).__init__(lang, config,
                                             EdgeTTSValidator(self), 'wav')
         self.config = config.get("ovos-tts-plugin-edge-tts", {})
-        self.voice = self.config.get("voice", "en-US-AriaNeural")
-        self.rate = self.config.get("rate", "+0%")
+        self.voice = self.config.get("voice", "nl-NL-MaartenNeural")
+        self.rate = self.config.get("rate", "+0%")  # Default to normal speed (100%)
         self.output_file = self.config.get("output_file", "edge_tts_output.wav")
+
+    async def generate_audio(self, edge_tts_communicate, file, process):
+        async for chunk in edge_tts_communicate.stream():
+            if chunk["type"] == "audio":
+                file.write(chunk["data"])
+                process.stdin.write(chunk["data"])
+
+        process.stdin.close()
+        process.wait()
+
+        return file.name, None  # No phonemes
 
     def get_tts(self, sentence, wav_file):
         edge_tts_communicate = edge_tts.Communicate(sentence, self.voice, rate=self.rate)
@@ -20,22 +31,14 @@ class EdgeTTSPlugin(TTS):
         process = subprocess.Popen(["paplay"], stdin=subprocess.PIPE)
 
         with open(wav_file, "wb") as file:
-            loop = asyncio.get_event_loop_policy().get_event_loop()
-            async def generate_audio():
-                async for chunk in edge_tts_communicate.stream():
-                    if chunk["type"] == "audio":
-                        file.write(chunk["data"])
-                        process.stdin.write(chunk["data"])
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
 
-                process.stdin.close()
-                process.wait()
-
-                return wav_file, None  # No phonemes
-
-            loop.run_until_complete(generate_audio())
-
-        return wav_file, None  # No phonemes
-
+            try:
+                result = loop.run_until_complete(self.generate_audio(edge_tts_communicate, file, process))
+                return result
+            finally:
+                loop.close()
 
 class EdgeTTSValidator(TTSValidator):
     def __init__(self, tts):
