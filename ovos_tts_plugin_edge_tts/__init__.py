@@ -12,22 +12,30 @@ class EdgeTTSPlugin(TTS):
         self.voice = self.config.get("voice", "en-US-AriaNeural")
         self.rate = self.config.get("rate", "+200%")  # Default to normal speed (200%); use +0% for 100% speed
         self.output_file = self.config.get("output_file", "edge_tts_output.wav")
-        self.playing = False  # Flag to track if audio is currently playing
+        self.played_chunks = set()  # Set to track played chunks
 
     async def generate_audio(self, edge_tts_communicate, file):
-        async for chunk in edge_tts_communicate.stream():
-            if chunk["type"] == "audio":
-                file.write(chunk["data"])
-                # Play each audio chunk asynchronously only if not currently playing
-                if not self.playing:
-                    self.playing = True
-                    asyncio.create_task(self.play_audio(file.name))
+        process = subprocess.Popen(["paplay"], stdin=subprocess.PIPE)
+
+        try:
+            async for chunk in edge_tts_communicate.stream():
+                if chunk["type"] == "audio":
+                    file.write(chunk["data"])
+                    index = chunk["index"]
+                    if index not in self.played_chunks:
+                        self.played_chunks.add(index)
+                        asyncio.create_task(self.play_audio(file.name, process.stdin, chunk["data"]))
+
+        finally:
+            process.stdin.close()
+            process.wait()
 
         return file.name, None  # No phonemes
 
-    async def play_audio(self, wav_file):
-        subprocess.run(["paplay", wav_file])
-        self.playing = False  # Reset the flag after playing
+    async def play_audio(self, wav_file, stdin, data):
+        stdin.write(data)
+        await asyncio.sleep(0.1)  # Add a small delay to ensure proper playback
+        stdin.flush()
 
     def get_tts(self, sentence, wav_file):
         edge_tts_communicate = edge_tts.Communicate(sentence, self.voice, rate=self.rate)
