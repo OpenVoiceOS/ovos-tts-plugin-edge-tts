@@ -12,19 +12,22 @@ class EdgeTTSPlugin(TTS):
         self.voice = self.config.get("voice", "en-US-AriaNeural")
         self.rate = self.config.get("rate", "+200%")  # Default to normal speed (200%); use +0% for 100% speed
         self.output_file = self.config.get("output_file", "edge_tts_output.wav")
+        self.playing = False  # Flag to track if audio is currently playing
 
     async def generate_audio(self, edge_tts_communicate, file):
         async for chunk in edge_tts_communicate.stream():
             if chunk["type"] == "audio":
                 file.write(chunk["data"])
-                # Play each audio chunk asynchronously
-                asyncio.create_task(self.play_audio(file.name))
+                # Play each audio chunk asynchronously only if not currently playing
+                if not self.playing:
+                    self.playing = True
+                    asyncio.create_task(self.play_audio(file.name))
 
         return file.name, None  # No phonemes
 
     async def play_audio(self, wav_file):
-        # Play the audio chunk asynchronously
         subprocess.run(["paplay", wav_file])
+        self.playing = False  # Reset the flag after playing
 
     def get_tts(self, sentence, wav_file):
         edge_tts_communicate = edge_tts.Communicate(sentence, self.voice, rate=self.rate)
