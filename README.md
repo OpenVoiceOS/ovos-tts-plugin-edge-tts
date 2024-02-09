@@ -15,5 +15,4 @@ Configuration parameters:
 
 ##### Installation
 
-`pip install ovos-tts-plugin-edge-tts`
-
+`pip install git+https://github.com/timonvanhasselt/ovos-tts-plugin-edge-tts`
