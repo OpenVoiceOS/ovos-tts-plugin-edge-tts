@@ -1,26 +1,21 @@
-#!/usr/bin/env python3
-from os.path import join, abspath, dirname
 from setuptools import setup
-import pathlib
 
-# The directory containing this file
-HERE = pathlib.Path(__file__).parent
+PLUGIN_ENTRY_POINT = 'ovos-tts-plugin-edge-tts = ovos_tts_plugin_edge_tts:EdgeTTSPlugin'
 
-# The text of the README file
-README = (HERE / "README.md").read_text()
-
-PLUGIN_ENTRY_POINT = 'ovos-tts-plugin-azure = ovos_tts_plugin_azure:AzureTTSPlugin'
 setup(
-    name='ovos-tts-plugin-azure',
+    name='ovos-tts-plugin-edge-tts',
     version='0.1',
-    description='A tts plugin for OpenVoiceOS, using Azure Cognitive Services',
-    long_description=README,
-    long_description_content_type="text/markdown",
-    url='http://github.com/dalgwen/ovos-tts-plugin-azure',
-    author='Gwendal Roulleau',
-    author_email='private@private.org',
+    description='A tts plugin for OpenVoiceOS, using EdgeTTS',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
+    url='http://github.com/timonvanhasselt/ovos-tts-plugin-edge-tts',
+    author='Your Name',
+    author_email='your@email.com',
     license='Apache-2.0',
-    packages=['ovos_tts_plugin_azure'],
+    packages=['ovos_tts_plugin_edge_tts'],
+    install_requires=[
+        'edge-tts>=6.1.9',
+    ],
     zip_safe=True,
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -29,6 +24,6 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3.7',
     ],
-    keywords='mycroft plugin tts',
+    keywords='ovos plugin tts edge-tts',
     entry_points={'mycroft.plugin.tts': PLUGIN_ENTRY_POINT}
 )
