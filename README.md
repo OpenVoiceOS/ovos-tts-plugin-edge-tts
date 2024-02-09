@@ -6,16 +6,15 @@ Configuration parameters:
 "tts": {
     "module": "ovos-tts-plugin-edge-tts",
     "ovos-tts-plugin-edge-tts": {
-        "api_key": "insert_your_key_here",
-        "voice": "en-US-JennyNeural",  # optional, default "en-US-Guy24kRUS"
-        "region": "westus" # optional, if your region is westus
+        "voice": "nl-NL-MaartenNeural",
+        "rate": "+200%"
     }
 }
 ```
 
 ##### Installation
 
-`pip install ovos-tts-plugin-azure`
+`pip install ovos-tts-plugin-edge-tts`
 
 ##### LICENSE :
 
