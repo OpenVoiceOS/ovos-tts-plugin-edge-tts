@@ -10,7 +10,7 @@ class EdgeTTSPlugin(TTS):
                                             EdgeTTSValidator(self), 'wav')
         self.config = config.get("ovos-tts-plugin-edge-tts", {})
         self.voice = self.config.get("voice", "en-US-AriaNeural")
-        self.rate = self.config.get("rate", "+200%")  # Default to normal speed (200%); use +0% for 100% speed
+        self.rate = self.config.get("rate", "+150%")  # use +0% for normal speed (100%)
         self.output_file = self.config.get("output_file", "edge_tts_output.wav")
         self.played_chunks = set()  # Set to track played chunks
 
