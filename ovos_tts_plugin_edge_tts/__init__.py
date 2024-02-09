@@ -21,8 +21,8 @@ class EdgeTTSPlugin(TTS):
             async for chunk in edge_tts_communicate.stream():
                 if chunk["type"] == "audio":
                     file.write(chunk["data"])
-                    index = chunk["index"]
-                    if index not in self.played_chunks:
+                    index = chunk.get("index")  # Use get() to handle missing key gracefully
+                    if index is not None and index not in self.played_chunks:
                         self.played_chunks.add(index)
                         asyncio.create_task(self.play_audio(file.name, process.stdin, chunk["data"]))
 
