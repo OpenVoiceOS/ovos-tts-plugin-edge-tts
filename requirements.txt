@@ -1,2 +1,3 @@
 ovos-plugin-manager
 requests
+edge-tts>=6.1.9
