@@ -7,7 +7,7 @@ Configuration parameters:
     "module": "ovos-tts-plugin-edge-tts",
     "ovos-tts-plugin-edge-tts": {
         "voice": "en-US-AriaNeural",
-        "rate": "100%",
+        "rate": "+0%", //use "+200%" etc for adjusting speed
         "output_file": "edge_tts_output.wav"
     }
 }
