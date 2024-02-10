@@ -9,8 +9,7 @@ Configuration parameters to add in the user config: `~/.config/mycroft/mycroft.c
     "module": "ovos-tts-plugin-edge-tts",
     "ovos-tts-plugin-edge-tts": {
         "voice": "en-US-AriaNeural", //Choose the voice name and lang-code (see list below)
-        "rate": "+0%", //=100% speed; use "+150%" or "+200%" etc for adjusting speed
-        "output_file": "edge_tts_output.wav"
+        "rate": "+0%" //=100% speed; use "+150%" or "+200%" etc for adjusting speed
     }
 }
 ```
