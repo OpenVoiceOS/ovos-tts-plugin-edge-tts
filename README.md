@@ -18,4 +18,4 @@ See for voices: [list of voices available in Edge TTS](https://gist.github.com/B
 
 ##### Installation
 
-`pip install git+https://github.com/timonvanhasselt/ovos-tts-plugin-edge-tts`
+`pip install git+https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts`
