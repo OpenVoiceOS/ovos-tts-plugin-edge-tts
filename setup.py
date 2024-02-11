@@ -9,8 +9,8 @@ setup(
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts',
-    author='Your Name',
-    author_email='your@email.com',
+    author='jarbasAi',
+    author_email='jarbasai@mailfence.com',
     license='Apache-2.0',
     packages=['ovos_tts_plugin_edge_tts'],
     install_requires=[
