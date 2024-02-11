@@ -8,7 +8,7 @@ setup(
     description='A tts plugin for OpenVoiceOS, using EdgeTTS',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='http://github.com/timonvanhasselt/ovos-tts-plugin-edge-tts',
+    url='https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts',
     author='Your Name',
     author_email='your@email.com',
     license='Apache-2.0',
