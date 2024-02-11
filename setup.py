@@ -14,7 +14,7 @@ setup(
     license='Apache-2.0',
     packages=['ovos_tts_plugin_edge_tts'],
     install_requires=[
-        'edge-tts>=6.1.9',
+        'edge-tts>=6.1.9', 'ovos-plugin-manager>=0.0.26a7',
     ],
     zip_safe=True,
     classifiers=[
