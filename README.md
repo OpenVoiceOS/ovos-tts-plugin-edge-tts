@@ -14,7 +14,7 @@ Configuration parameters to add in the user config: `~/.config/mycroft/mycroft.c
 }
 ```
 See for voices: [list of voices available in Edge TTS](https://gist.github.com/BettyJJ/17cbaa1de96235a7f5773b8690a20462). 
-
+Also a lot of the latest generation [multilingual voices](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=tts#multilingual-voices) (from March 2024) work with this plug-in. For instance: `"voice": "en-US-EmmaMultilingualNeural"`.
 
 ##### Installation
 
