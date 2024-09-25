@@ -12,7 +12,7 @@ jobs:
     secrets: inherit
     with:
       branch: 'dev'
-      version_file: 'ovos_tts_plugin_google_tx/version.py'
+      version_file: 'ovos_tts_plugin_edge_tts/version.py'
       setup_py: 'setup.py'
       update_changelog: true
       publish_prerelease: true
