@@ -1,3 +1,2 @@
-ovos-plugin-manager>=0.0.26a7
-requests
+ovos-plugin-manager>=0.0.26
 edge-tts>=6.1.9
