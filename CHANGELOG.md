@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.1a1) (2024-09-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.0a1...0.2.1a1)
+
+**Merged pull requests:**
+
+- feat:lang2voice \(\#3\) [\#5](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/5) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.0a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.0a1) (2024-09-26)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.1.0...0.2.0a1)
