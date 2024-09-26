@@ -178,11 +178,22 @@ class EdgeTTSPlugin(StreamingTTS):
         return set([standardize_lang_tag(l)
                     for l in VOICES.keys()])
 
-    async def stream_tts(self, sentence, voice=None, rate=None):
+    async def stream_tts(self, sentence, voice=None, rate=None, lang=None):
         """yield chunks of TTS audio as they become available"""
+        if lang and not voice:
+            lang = standardize_lang_tag(lang, macro=True)
+            if lang in VOICES:
+                voice = VOICES[lang][0]
         voice = voice or self.voice
         rate = rate or self.rate
         tts = edge_tts.Communicate(sentence, voice, rate=rate)
         async for chunk in tts.stream():
             if chunk["type"] == "audio":
                 yield chunk["data"]
+
+
+if __name__ == "__main__":
+    t = EdgeTTSPlugin({})
+    t.get_tts("hello world", "test.wav",
+              lang="en-us",
+              voice="en-US-AriaNeural")
