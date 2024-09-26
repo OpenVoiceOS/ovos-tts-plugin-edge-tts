@@ -170,7 +170,7 @@ VOICES = {'af-ZA': ['af-ZA-AdriNeural', 'af-ZA-WillemNeural'],
 
 class EdgeTTSPlugin(StreamingTTS):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs, audio_ext="mp3")
         self.voice = self.config.get("voice", "en-US-AriaNeural")
         self.rate = self.config.get("rate", "+0%")  # use +0% for normal speed (100%)
 
