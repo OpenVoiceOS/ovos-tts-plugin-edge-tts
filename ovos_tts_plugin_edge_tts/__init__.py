@@ -175,9 +175,8 @@ class EdgeTTSPlugin(StreamingTTS):
         self.rate = self.config.get("rate", "+0%")  # use +0% for normal speed (100%)
 
     @classproperty
-    def available_languages(self) -> set:
-        return set([standardize_lang_tag(l)
-                    for l in VOICES.keys()])
+    def available_languages(cls) -> set:
+        return set([standardize_lang_tag(l) for l in VOICES.keys()])
 
     async def stream_tts(self, sentence, voice=None, rate=None, lang=None):
         """yield chunks of TTS audio as they become available"""
