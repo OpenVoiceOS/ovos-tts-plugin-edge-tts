@@ -1,2 +1,2 @@
-ovos-plugin-manager>=0.0.26
+ovos-plugin-manager>=1.0.0,<2.0.0
 edge-tts>=6.1.9
