@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.2.2a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.2a1) (2025-06-08)
+## [0.2.3a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.3a1) (2025-11-22)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.1...0.2.2a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.2...0.2.3a1)
 
 **Merged pull requests:**
 
-- fix: compatibility with ovos-plugin-manager 1.X.X [\#7](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/7) ([JarbasAl](https://github.com/JarbasAl))
+- Update requirements.txt [\#9](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/9) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
