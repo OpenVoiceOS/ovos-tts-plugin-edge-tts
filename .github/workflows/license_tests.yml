@@ -13,3 +13,6 @@ jobs:
     with:
       install_extras: ''
       system_deps: ''
+      # edge-tts is LGPLv3 (weak copyleft): safe to depend on as a library
+      # (dynamic import does not impose copyleft on this plugin's own code).
+      exclude_packages: '(?i:^edge-tts([=<>!~ @;].*)?$)'
