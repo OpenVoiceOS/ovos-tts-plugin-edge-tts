@@ -9,3 +9,10 @@ jobs:
   license_check:
     uses: OpenVoiceOS/gh-automations/.github/workflows/license-check.yml@dev
     secrets: inherit
+    with:
+      # edge-tts is LGPLv3 (WeakCopyleft). It is imported and used unmodified as
+      # a library — LGPL imposes no copyleft on the importing application — and it
+      # is the upstream service client this plugin wraps, with no permissive
+      # equivalent. Safe to use as a library.
+      exclude_packages: >-
+        (?i:^edge-tts([=<>!~ @;].*)?$)
