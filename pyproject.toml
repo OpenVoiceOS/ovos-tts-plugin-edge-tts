@@ -20,7 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3.7",
 ]
 dependencies = [
-    "ovos-plugin-manager>=1.0.0,<3.0.0",
+    "ovos-plugin-manager>=2.1.0,<3.0.0",
     "edge-tts>=6.1.9",
 ]
 
