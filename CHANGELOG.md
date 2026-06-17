@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.3a2](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.3a2) (2026-06-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.3a1...0.2.3a2)
+
+**Merged pull requests:**
+
+- chore: add missing shared CI workflows [\#11](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/11) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.3a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.3a1) (2025-11-22)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.2...0.2.3a1)

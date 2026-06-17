@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ovos-tts-plugin-edge-tts"
+dynamic = ["version"]
+description = "A tts plugin for OpenVoiceOS, using EdgeTTS"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "jarbasAi", email = "jarbasai@mailfence.com"}
+]
+keywords = ["ovos", "plugin", "tts", "edge-tts"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Text Processing :: Linguistic",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.7",
+]
+dependencies = [
+    "ovos-plugin-manager>=2.1.0,<3.0.0",
+    "edge-tts>=6.1.9",
+]
+
+[project.optional-dependencies]
+test = [
+    "ovoscope[tts]",
+    "pytest",
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts"
+
+[project.entry-points."opm.tts"]
+"ovos-tts-plugin-edge-tts" = "ovos_tts_plugin_edge_tts:EdgeTTSPlugin"
+
+[tool.setuptools.dynamic]
+version = {attr = "ovos_tts_plugin_edge_tts.version.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ovos_tts_plugin_edge_tts*"]
