@@ -24,6 +24,12 @@ dependencies = [
     "edge-tts>=6.1.9",
 ]
 
+[project.optional-dependencies]
+test = [
+    "ovoscope[tts]",
+    "pytest",
+]
+
 [project.urls]
 Homepage = "https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts"
 
