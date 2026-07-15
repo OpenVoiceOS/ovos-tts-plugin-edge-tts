@@ -1,3 +1,6 @@
+import asyncio
+import concurrent.futures
+
 import edge_tts
 from ovos_plugin_manager.templates.tts import StreamingTTS
 from ovos_utils import classproperty
@@ -190,6 +193,40 @@ class EdgeTTSPlugin(StreamingTTS):
         async for chunk in tts.stream():
             if chunk["type"] == "audio":
                 yield chunk["data"]
+
+    @staticmethod
+    def _run_coro(coro):
+        """Run ``coro`` to completion whether or not an event loop is already
+        running in this thread. Called directly from a plain sync context we use
+        ``asyncio.run``; called from inside a running loop (e.g. an async web
+        server handler) we offload to a worker thread so we never nest loops."""
+        try:
+            asyncio.get_running_loop()
+        except RuntimeError:
+            return asyncio.run(coro)  # no loop running here — safe
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
+            return ex.submit(asyncio.run, coro).result()
+
+    def get_tts(self, sentence, wav_file, lang=None, voice=None, rate=None):
+        """Synchronous synthesis.
+
+        Overrides the StreamingTTS sync adapter (which drives its own event loop
+        via ``run_until_complete`` and therefore crashes when called from inside
+        an already-running loop). Here we collect the Edge stream and, when a loop
+        is already running, run it off-thread — so serving edge through an async
+        server (ovos-tts-server) works without depending on the experimental
+        streaming path. Output is mp3 (matching ``audio_ext``).
+        """
+        async def _collect():
+            data = bytearray()
+            async for chunk in self.stream_tts(sentence, voice=voice, rate=rate, lang=lang):
+                data.extend(chunk)
+            return bytes(data)
+
+        audio = self._run_coro(_collect())
+        with open(wav_file, "wb") as f:
+            f.write(audio)
+        return wav_file, None
 
 
 if __name__ == "__main__":
