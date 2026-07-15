@@ -17,12 +17,11 @@ WORKDIR /app
 COPY . /app
 
 # the plugin + edge-tts + the OVOS TTS server. setuptools<81 keeps
-# ovos-plugin-manager's pkg_resources usage working.
+# ovos-plugin-manager's pkg_resources usage working. ovos-tts-server>=1.13.5a1 carries
+# the non-WAV transcode fix (edge_tts emits mp3) from #137; the alpha floor lets pip
+# resolve the prerelease without --pre.
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir "setuptools<81" "." edge-tts ovos-tts-server
-# TODO: drop once ovos-tts-server ships the non-WAV transcode fix (OpenVoiceOS/ovos-tts-server#137).
-RUN pip install --no-cache-dir --force-reinstall --no-deps \
-    "ovos-tts-server @ git+https://github.com/OpenVoiceOS/ovos-tts-server@fix/elevenlabs-nonwav-plugin-output"
+    && pip install --no-cache-dir "setuptools<81" "." edge-tts "ovos-tts-server>=1.13.5a1"
 
 # Default voice, overridable with the EDGE_VOICE build arg (any Edge voice works).
 ARG EDGE_VOICE=en-US-AriaNeural
