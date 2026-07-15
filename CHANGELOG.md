@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.0a1) (2026-07-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.3a3...0.3.0a1)
+
+**Merged pull requests:**
+
+- feat: publish an ovos-tts-server container image [\#15](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/15) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.3a3](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.3a3) (2026-06-17)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.3a2...0.2.3a3)
