@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.2a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.2a1) (2026-07-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.1a2...0.3.2a1)
+
+**Merged pull requests:**
+
+- fix: per-request lang overrides the configured default voice [\#21](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/21) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.3.1a2](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.1a2) (2026-07-15)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.1a1...0.3.1a2)
