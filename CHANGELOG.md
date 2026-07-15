@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.1a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.1a1) (2026-07-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.0a1...0.3.1a1)
+
+**Merged pull requests:**
+
+- fix: docker build — pin ovos-tts-server\>=1.13.5a1 \(dead branch ref\) [\#17](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/17) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.3.0a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.0a1) (2026-07-15)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.3a3...0.3.0a1)
