@@ -183,10 +183,16 @@ class EdgeTTSPlugin(StreamingTTS):
 
     async def stream_tts(self, sentence, voice=None, rate=None, lang=None):
         """yield chunks of TTS audio as they become available"""
-        if lang and not voice:
+        # A per-request lang selects the voice, taking precedence over the
+        # configured default voice (which self.synth injects as `voice`): a caller
+        # asking for lang=ar-SA against an en-US-defaulted server wants Arabic, and
+        # edge_tts returns no audio for a voice/text-language mismatch. An explicit
+        # voice that already belongs to the requested lang is kept as-is.
+        if lang:
             lang = standardize_lang_tag(lang, macro=True)
-            if lang in VOICES:
-                voice = VOICES[lang][0]
+            candidates = VOICES.get(lang)
+            if candidates and (not voice or voice not in candidates):
+                voice = candidates[0]
         voice = voice or self.voice
         rate = rate or self.rate
         tts = edge_tts.Communicate(sentence, voice, rate=rate)
