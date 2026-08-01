@@ -1,12 +1,68 @@
 # Changelog
 
-## [0.2.2a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.2a1) (2025-06-08)
+## [0.3.2a2](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.2a2) (2026-08-01)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.1...0.2.2a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.2a1...0.3.2a2)
 
 **Merged pull requests:**
 
-- fix: compatibility with ovos-plugin-manager 1.X.X [\#7](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/7) ([JarbasAl](https://github.com/JarbasAl))
+- docs: rewrite README in Simplified Technical English [\#23](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/23) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.3.2a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.2a1) (2026-07-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.1a2...0.3.2a1)
+
+**Merged pull requests:**
+
+- fix: per-request lang overrides the configured default voice [\#21](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/21) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.3.1a2](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.1a2) (2026-07-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.1a1...0.3.1a2)
+
+**Merged pull requests:**
+
+- fix: native loop-safe synchronous get\_tts [\#19](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/19) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.3.1a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.1a1) (2026-07-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.0a1...0.3.1a1)
+
+**Merged pull requests:**
+
+- fix: docker build — pin ovos-tts-server\>=1.13.5a1 \(dead branch ref\) [\#17](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/17) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.3.0a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.0a1) (2026-07-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.3a3...0.3.0a1)
+
+**Merged pull requests:**
+
+- feat: publish an ovos-tts-server container image [\#15](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/15) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.3a3](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.3a3) (2026-06-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.3a2...0.2.3a3)
+
+**Merged pull requests:**
+
+- test: add TTS intelligibility e2e \(ovoscope\) [\#12](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/12) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.3a2](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.3a2) (2026-06-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.3a1...0.2.3a2)
+
+**Merged pull requests:**
+
+- chore: add missing shared CI workflows [\#11](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/11) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.3a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.2.3a1) (2025-11-22)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.2.2...0.2.3a1)
+
+**Merged pull requests:**
+
+- Update requirements.txt [\#9](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/9) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
