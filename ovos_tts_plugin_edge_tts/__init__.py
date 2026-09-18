@@ -171,6 +171,16 @@ VOICES = {'af-ZA': ['af-ZA-AdriNeural', 'af-ZA-WillemNeural'],
           }
 
 
+class EdgeTTSNoAudioError(RuntimeError):
+    """The Edge service closed the stream without one audio chunk.
+
+    Microsoft refuses some clients (GitHub runners among them) with a stream
+    that carries metadata and no audio. Older ``edge-tts`` releases end that
+    stream without an exception, and a caller that only checks for a file then
+    sees an empty one, or none, and no error. The plugin raises this instead.
+    """
+
+
 class EdgeTTSPlugin(StreamingTTS):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs, audio_ext="mp3")
@@ -196,9 +206,16 @@ class EdgeTTSPlugin(StreamingTTS):
         voice = voice or self.voice
         rate = rate or self.rate
         tts = edge_tts.Communicate(sentence, voice, rate=rate)
+        received = False
         async for chunk in tts.stream():
-            if chunk["type"] == "audio":
+            if chunk["type"] == "audio" and chunk["data"]:
+                received = True
                 yield chunk["data"]
+        if not received:
+            raise EdgeTTSNoAudioError(
+                f"edge-tts returned no audio for voice {voice!r}, rate {rate!r}, "
+                f"{len(sentence)} characters of text; the service refused the request"
+            )
 
     @staticmethod
     def _run_coro(coro):
@@ -230,6 +247,10 @@ class EdgeTTSPlugin(StreamingTTS):
             return bytes(data)
 
         audio = self._run_coro(_collect())
+        if not audio:
+            # stream_tts raises before this point; this is the guard for a
+            # stream that yielded only empty chunks
+            raise EdgeTTSNoAudioError(f"edge-tts returned no audio for voice {voice or self.voice!r}")
         with open(wav_file, "wb") as f:
             f.write(audio)
         return wav_file, None
