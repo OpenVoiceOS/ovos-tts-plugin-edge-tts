@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.4a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.4a1) (2026-09-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.3a1...0.3.4a1)
+
+**Merged pull requests:**
+
+- fix: edge-tts floor + test file handle [\#27](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/27) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.3.3a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.3a1) (2026-09-24)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.2a2...0.3.3a1)
