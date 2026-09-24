@@ -51,6 +51,12 @@ docker build --build-arg EDGE_VOICE=ar-SA-HamedNeural -t edge-tts .
 See the bundled `docker-compose.yml` for a full example. Because Edge TTS streams audio
 from Microsoft's cloud, the container needs network access.
 
+When the Edge service refuses a request (an empty string, a whitespace-only
+string, or text like `"..."` that a client filter rejects), the plugin raises
+`EdgeTTSNoAudioError` — the single error class a caller sees, whether the
+underlying `edge-tts` release ends the stream quietly or raises its own
+`NoAudioReceived` exception.
+
 ## Related projects
 
 - [OpenVoiceOS/ovos-tts-server](https://github.com/OpenVoiceOS/ovos-tts-server) — serves

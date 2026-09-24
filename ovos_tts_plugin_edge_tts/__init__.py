@@ -207,10 +207,19 @@ class EdgeTTSPlugin(StreamingTTS):
         rate = rate or self.rate
         tts = edge_tts.Communicate(sentence, voice, rate=rate)
         received = False
-        async for chunk in tts.stream():
-            if chunk["type"] == "audio" and chunk["data"]:
-                received = True
-                yield chunk["data"]
+        try:
+            async for chunk in tts.stream():
+                if chunk["type"] == "audio" and chunk["data"]:
+                    received = True
+                    yield chunk["data"]
+        except edge_tts.exceptions.NoAudioReceived as e:
+            # edge-tts 7.x raises its own exception (EdgeTTSException, not a
+            # RuntimeError) for the same refusal our own guard below catches
+            # for older releases; callers should only ever see one class.
+            raise EdgeTTSNoAudioError(
+                f"edge-tts returned no audio for voice {voice!r}, rate {rate!r}, "
+                f"{len(sentence)} characters of text; the service refused the request"
+            ) from e
         if not received:
             raise EdgeTTSNoAudioError(
                 f"edge-tts returned no audio for voice {voice!r}, rate {rate!r}, "

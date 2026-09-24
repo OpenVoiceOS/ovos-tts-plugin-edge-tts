@@ -37,6 +37,19 @@ class _EmptyAudioCommunicate:
         yield {"type": "audio", "data": b""}
 
 
+class _NoAudioReceivedCommunicate:
+    """edge-tts 7.x raises its own exception for the same refusal instead of
+    ending the stream quietly (T-edge-tts-noaudio-wrap)."""
+
+    def __init__(self, *args, **kwargs):
+        pass
+
+    async def stream(self):
+        import edge_tts
+        raise edge_tts.exceptions.NoAudioReceived("No audio was received.")
+        yield  # pragma: no cover - makes this an async generator
+
+
 class _GoodCommunicate:
     def __init__(self, *args, **kwargs):
         pass
@@ -83,6 +96,18 @@ def test_a_stream_with_audio_is_unchanged():
         assert path == out
         assert phonemes is None
         assert open(out, "rb").read() == b"ID3fake"
+
+
+def test_get_tts_wraps_edge_tts_own_no_audio_exception():
+    # edge-tts 7.x raises edge_tts.exceptions.NoAudioReceived (an Exception,
+    # not a RuntimeError) for the same refusal; callers must see one class.
+    p = _plugin()
+    with patch("ovos_tts_plugin_edge_tts.edge_tts.Communicate", _NoAudioReceivedCommunicate), \
+            tempfile.TemporaryDirectory() as d:
+        out = os.path.join(d, "c.mp3")
+        with pytest.raises(EdgeTTSNoAudioError):
+            p.get_tts("...", out)
+        assert not os.path.exists(out)
 
 
 def test_error_is_a_runtime_error():
