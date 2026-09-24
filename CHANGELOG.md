@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.5a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.5a1) (2026-09-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.4a1...0.3.5a1)
+
+**Merged pull requests:**
+
+- fix: NoAudioReceived from edge-tts surfaces as EdgeTTSNoAudioError [\#29](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/29) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.3.4a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.4a1) (2026-09-24)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.3a1...0.3.4a1)
