@@ -82,7 +82,8 @@ def test_a_stream_with_audio_is_unchanged():
         path, phonemes = p.get_tts("hello", out)
         assert path == out
         assert phonemes is None
-        assert open(out, "rb").read() == b"ID3fake"
+        with open(out, "rb") as f:
+            assert f.read() == b"ID3fake"
 
 
 def test_error_is_a_runtime_error():
