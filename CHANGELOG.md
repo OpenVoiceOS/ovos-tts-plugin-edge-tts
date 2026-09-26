@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.5a2](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.5a2) (2026-09-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.5a1...0.3.5a2)
+
+**Merged pull requests:**
+
+- ci: the build test runs the unit test files [\#31](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/pull/31) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.3.5a1](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/tree/0.3.5a1) (2026-09-24)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-tts-plugin-edge-tts/compare/0.3.4a1...0.3.5a1)
