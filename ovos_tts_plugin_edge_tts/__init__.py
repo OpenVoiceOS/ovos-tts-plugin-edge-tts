@@ -1,3 +1,6 @@
+import asyncio
+import concurrent.futures
+
 import edge_tts
 from ovos_plugin_manager.templates.tts import StreamingTTS
 from ovos_utils import classproperty
@@ -168,6 +171,16 @@ VOICES = {'af-ZA': ['af-ZA-AdriNeural', 'af-ZA-WillemNeural'],
           }
 
 
+class EdgeTTSNoAudioError(RuntimeError):
+    """The Edge service closed the stream without one audio chunk.
+
+    Microsoft refuses some clients (GitHub runners among them) with a stream
+    that carries metadata and no audio. Older ``edge-tts`` releases end that
+    stream without an exception, and a caller that only checks for a file then
+    sees an empty one, or none, and no error. The plugin raises this instead.
+    """
+
+
 class EdgeTTSPlugin(StreamingTTS):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs, audio_ext="mp3")
@@ -180,16 +193,76 @@ class EdgeTTSPlugin(StreamingTTS):
 
     async def stream_tts(self, sentence, voice=None, rate=None, lang=None):
         """yield chunks of TTS audio as they become available"""
-        if lang and not voice:
+        # A per-request lang selects the voice, taking precedence over the
+        # configured default voice (which self.synth injects as `voice`): a caller
+        # asking for lang=ar-SA against an en-US-defaulted server wants Arabic, and
+        # edge_tts returns no audio for a voice/text-language mismatch. An explicit
+        # voice that already belongs to the requested lang is kept as-is.
+        if lang:
             lang = standardize_lang_tag(lang, macro=True)
-            if lang in VOICES:
-                voice = VOICES[lang][0]
+            candidates = VOICES.get(lang)
+            if candidates and (not voice or voice not in candidates):
+                voice = candidates[0]
         voice = voice or self.voice
         rate = rate or self.rate
         tts = edge_tts.Communicate(sentence, voice, rate=rate)
-        async for chunk in tts.stream():
-            if chunk["type"] == "audio":
-                yield chunk["data"]
+        received = False
+        try:
+            async for chunk in tts.stream():
+                if chunk["type"] == "audio" and chunk["data"]:
+                    received = True
+                    yield chunk["data"]
+        except edge_tts.exceptions.NoAudioReceived as e:
+            # edge-tts 7.x raises its own exception (EdgeTTSException, not a
+            # RuntimeError) for the same refusal our own guard below catches
+            # for older releases; callers should only ever see one class.
+            raise EdgeTTSNoAudioError(
+                f"edge-tts returned no audio for voice {voice!r}, rate {rate!r}, "
+                f"{len(sentence)} characters of text; the service refused the request"
+            ) from e
+        if not received:
+            raise EdgeTTSNoAudioError(
+                f"edge-tts returned no audio for voice {voice!r}, rate {rate!r}, "
+                f"{len(sentence)} characters of text; the service refused the request"
+            )
+
+    @staticmethod
+    def _run_coro(coro):
+        """Run ``coro`` to completion whether or not an event loop is already
+        running in this thread. Called directly from a plain sync context we use
+        ``asyncio.run``; called from inside a running loop (e.g. an async web
+        server handler) we offload to a worker thread so we never nest loops."""
+        try:
+            asyncio.get_running_loop()
+        except RuntimeError:
+            return asyncio.run(coro)  # no loop running here — safe
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
+            return ex.submit(asyncio.run, coro).result()
+
+    def get_tts(self, sentence, wav_file, lang=None, voice=None, rate=None):
+        """Synchronous synthesis.
+
+        Overrides the StreamingTTS sync adapter (which drives its own event loop
+        via ``run_until_complete`` and therefore crashes when called from inside
+        an already-running loop). Here we collect the Edge stream and, when a loop
+        is already running, run it off-thread — so serving edge through an async
+        server (ovos-tts-server) works without depending on the experimental
+        streaming path. Output is mp3 (matching ``audio_ext``).
+        """
+        async def _collect():
+            data = bytearray()
+            async for chunk in self.stream_tts(sentence, voice=voice, rate=rate, lang=lang):
+                data.extend(chunk)
+            return bytes(data)
+
+        audio = self._run_coro(_collect())
+        if not audio:
+            # stream_tts raises before this point; this is the guard for a
+            # stream that yielded only empty chunks
+            raise EdgeTTSNoAudioError(f"edge-tts returned no audio for voice {voice or self.voice!r}")
+        with open(wav_file, "wb") as f:
+            f.write(audio)
+        return wav_file, None
 
 
 if __name__ == "__main__":

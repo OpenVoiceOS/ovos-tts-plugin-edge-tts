@@ -1,0 +1,4 @@
+include requirements.txt
+include README.md
+include LICENSE.txt
+recursive-include ovos_tts_plugin_edge_tts *.py
